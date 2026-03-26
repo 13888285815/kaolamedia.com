@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>考拉新媒体导航 - 新媒体人每天打开的第一个网站</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦊</text></svg>">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#ff6b35;
+  --primary-dark:#e55a25;
+  --bg:#f5f6fa;
+  --white:#fff;
+  --text:#333;
+  --muted:#888;
+  --border:#e8e8e8;
+  --shadow:0 2px 12px rgba(0,0,0,0.08);
+  --shadow-hover:0 6px 24px rgba(0,0,0,0.14);
+  --radius:12px;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+  background:var(--bg);color:var(--text);
+  line-height:1.6;
+}
+
+/* ==================== 顶部导航 ==================== */
+.koala-header{
+  background:var(--white);
+  border-bottom:2px solid var(--primary);
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 1px 4px rgba(0,0,0,0.06);
+}
+.koala-top{
+  max-width:1280px;margin:0 auto;
+  padding:0 20px;
+}
+.koala-logo-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 0 12px;
+  border-bottom:1px solid #f0f0f0;
+}
+.koala-logo{
+  display:flex;align-items:center;gap:12px;
+  text-decoration:none;
+}
+.koala-logo-icon{
+  width:44px;height:44px;
+  background:linear-gradient(135deg,#ff6b35,#ff9a5c);
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+  box-shadow:0 4px 12px rgba(255,107,53,0.3);
+}
+.koala-logo-text{
+  display:flex;flex-direction:column;
+}
+.koala-logo-name{
+  font-size:22px;font-weight:800;
+  background:linear-gradient(135deg,#ff6b35,#ff9a5c);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:-0.5px;
+}
+.koala-logo-tagline{
+  font-size:12px;color:#999;margin-top:2px;
+}
+.koala-actions{
+  display:flex;align-items:center;gap:10px;
+}
+.koala-btn{
+  padding:8px 18px;
+  border-radius:8px;font-size:13px;font-weight:500;
+  cursor:pointer;transition:all .2s;
+  border:none;text-decoration:none;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.koala-btn-primary{
+  background:var(--primary);color:#fff;
+}
+.koala-btn-primary:hover{background:var(--primary-dark);transform:translateY(-1px)}
+.koala-btn-outline{
+  background:#fff;color:var(--text);
+  border:1px solid var(--border);
+}
+.koala-btn-outline:hover{background:#f5f5f5;border-color:#ccc}
+
+/* 导航标签 */
+.koala-nav{
+  display:flex;align-items:center;
+  padding:0;overflow-x:auto;
+  gap:0;
+}
+.koala-nav a{
+  display:block;padding:12px 16px;
+  font-size:14px;color:#555;
+  white-space:nowrap;
+  border-bottom:2px solid transparent;
+  transition:all .2s;
+  text-decoration:none;
+}
+.koala-nav a:hover{color:var(--primary);border-bottom-color:var(--primary)}
+.koala-nav a.active{color:var(--primary);font-weight:600;border-bottom-color:var(--primary)}
+
+/* 移动端提示 */
+.koala-mobile-tip{
+  display:none;
+  background:#fffbeb;border:1px solid #fcd34d;
+  color:#92400e;font-size:12px;
+  padding:8px 16px;text-align:center;
+}
+@media(max-width:768px){
+  .koala-mobile-tip{display:block}
+  .koala-nav a{padding:10px 12px;font-size:13px}
+  .koala-btn{padding:7px 12px;font-size:12px}
+}
+
+/* ==================== 主容器 ==================== */
+.koala-container{
+  max-width:1280px;margin:0 auto;
+  padding:24px 20px;
+}
+
+/* 搜索栏 */
+.koala-search-wrap{
+  background:var(--white);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:20px;margin-bottom:24px;
+}
+.koala-search-row{
+  display:flex;gap:12px;
+}
+.koala-search-input{
+  flex:1;padding:12px 16px;
+  border:2px solid var(--border);
+  border-radius:10px;font-size:15px;
+  outline:none;transition:border-color .2s;
+}
+.koala-search-input:focus{border-color:var(--primary)}
+.koala-search-btn{
+  padding:12px 24px;
+  background:var(--primary);color:#fff;
+  border:none;border-radius:10px;
+  font-size:15px;font-weight:600;
+  cursor:pointer;transition:all .2s;
+}
+.koala-search-btn:hover{background:var(--primary-dark)}
+
+/* ==================== 快捷工具栏 ==================== */
+.koala-quick-bar{
+  display:flex;gap:10px;flex-wrap:wrap;
+  margin-bottom:24px;
+}
+.koala-quick-item{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 16px;
+  background:var(--white);
+  border-radius:10px;
+  box-shadow:var(--shadow);
+  cursor:pointer;
+  transition:all .2s;
+  font-size:14px;color:#555;
+  text-decoration:none;
+  border:1px solid transparent;
+}
+.koala-quick-item:hover{
+  box-shadow:var(--shadow-hover);
+  transform:translateY(-2px);
+  border-color:var(--primary);
+  color:var(--primary);
+}
+.koala-quick-item .emoji{font-size:18px}
+
+/* ==================== 分类区块 ==================== */
+.koala-section{
+  background:var(--white);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  margin-bottom:20px;
+  overflow:hidden;
+}
+.koala-section-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;
+  border-bottom:1px solid #f0f0f0;
+}
+.koala-section-title{
+  font-size:17px;font-weight:700;
+  display:flex;align-items:center;gap:10px;
+  color:var(--text);
+}
+.koala-section-title .icon{
+  width:28px;height:28px;
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;
+}
+.koala-section-more{
+  font-size:13px;color:#999;
+  text-decoration:none;
+  transition:color .2s;
+}
+.koala-section-more:hover{color:var(--primary)}
+.koala-section-body{
+  padding:16px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:12px;
+}
+
+/* 工具卡片 */
+.koala-tool{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px;
+  background:#fafafa;
+  border-radius:10px;
+  text-decoration:none;color:inherit;
+  transition:all .2s;
+  border:1px solid transparent;
+}
+.koala-tool:hover{
+  background:#fff;
+  box-shadow:0 4px 16px rgba(0,0,0,0.1);
+  border-color:var(--primary);
+  transform:translateY(-2px);
+}
+.koala-tool-icon{
+  width:42px;height:42px;
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+  flex-shrink:0;
+}
+.koala-tool-info{flex:1;min-width:0}
+.koala-tool-name{
+  font-size:14px;font-weight:600;
+  color:var(--text);
+  margin-bottom:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.koala-tool-desc{
+  font-size:12px;color:#999;
+  display:-webkit-box;-webkit-line-clamp:2;
+  -webkit-box-orient:vertical;overflow:hidden;
+  line-height:1.5;
+}
+.koala-tool-tag{
+  position:absolute;top:6px;right:6px;
+  font-size:10px;padding:2px 6px;
+  border-radius:4px;background:#fee2e2;color:#dc2626;
+  font-weight:600;
+}
+
+/* ==================== 实时热点 ==================== */
+.koala-hot-bar{
+  background:linear-gradient(135deg,#ff6b35,#ff9a5c);
+  color:#fff;
+  border-radius:var(--radius);
+  padding:14px 20px;
+  margin-bottom:24px;
+  display:flex;align-items:center;gap:16px;
+  box-shadow:0 4px 16px rgba(255,107,53,0.3);
+}
+.koala-hot-label{
+  font-size:14px;font-weight:700;
+  white-space:nowrap;
+  display:flex;align-items:center;gap:6px;
+}
+.koala-hot-scroll{
+  flex:1;overflow:hidden;
+  position:relative;
+}
+.koala-hot-items{
+  display:flex;flex-direction:column;gap:4px;
+}
+.koala-hot-item{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.koala-hot-item .num{
+  width:20px;height:20px;
+  background:rgba(255,255,255,0.2);
+  border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;
+  flex-shrink:0;
+}
+.koala-hot-item .num.hot{background:#fff;color:var(--primary)}
+
+/* ==================== 公众号推荐 ==================== */
+.koala-wechat-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:12px;padding:16px;
+}
+.koala-wechat-item{
+  display:flex;flex-direction:column;align-items:center;
+  padding:16px 12px;
+  background:#fafafa;border-radius:10px;
+  text-align:center;cursor:pointer;
+  transition:all .2s;
+  text-decoration:none;color:inherit;
+}
+.koala-wechat-item:hover{
+  background:#fff;box-shadow:var(--shadow-hover);transform:translateY(-2px);
+}
+.koala-wechat-avatar{
+  width:56px;height:56px;
+  border-radius:12px;overflow:hidden;
+  margin-bottom:8px;
+  background:#f0f0f0;
+}
+.koala-wechat-avatar img{width:100%;height:100%;object-fit:cover}
+.koala-wechat-name{font-size:13px;font-weight:600;margin-bottom:4px}
+.koala-wechat-desc{font-size:11px;color:#999}
+
+/* ==================== 底部 ==================== */
+.koala-footer{
+  background:var(--white);
+  border-top:1px solid var(--border);
+  padding:40px 20px;margin-top:40px;
+}
+.koala-footer-inner{
+  max-width:1280px;margin:0 auto;
+}
+.koala-footer-qr{
+  display:flex;justify-content:center;gap:40px;
+  margin-bottom:30px;flex-wrap:wrap;
+}
+.koala-qr-item{
+  text-align:center;
+}
+.koala-qr-box{
+  width:100px;height:100px;
+  background:#f5f5f5;
+  border-radius:12px;
+  margin-bottom:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:40px;
+  overflow:hidden;
+}
+.koala-qr-box img{width:100%;height:100%;object-fit:cover}
+.koala-qr-name{font-size:13px;font-weight:600;margin-bottom:4px}
+.koala-qr-desc{font-size:11px;color:#999}
+.koala-footer-links{
+  display:flex;justify-content:center;gap:24px;
+  flex-wrap:wrap;margin-bottom:20px;
+}
+.koala-footer-links a{
+  font-size:13px;color:#666;
+  text-decoration:none;transition:color .2s;
+}
+.koala-footer-links a:hover{color:var(--primary)}
+.koala-footer-copy{
+  text-align:center;
+  font-size:12px;color:#999;
+  border-top:1px solid #f0f0f0;
+  padding-top:20px;
+  line-height:2;
+}
+.koala-footer-copy a{color:#999;text-decoration:none}
+.koala-footer-copy a:hover{color:var(--primary)}
+
+/* 回顶部 */
+.koala-back-top{
+  position:fixed;bottom:30px;right:30px;
+  width:46px;height:46px;
+  background:var(--primary);color:#fff;
+  border:none;border-radius:50%;
+  font-size:20px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(255,107,53,0.4);
+  transition:all .2s;opacity:0;pointer-events:none;
+  z-index:50;
+}
+.koala-back-top.visible{opacity:1;pointer-events:auto}
+.koala-back-top:hover{transform:translateY(-4px);background:var(--primary-dark)}
+
+/* 分类标签切换 */
+.koala-tabs{
+  display:flex;gap:8px;padding:0 20px 16px;
+  overflow-x:auto;flex-wrap:nowrap;
+}
+.koala-tab{
+  padding:8px 16px;
+  border-radius:20px;font-size:13px;
+  background:#fff;border:1px solid var(--border);
+  color:#555;cursor:pointer;
+  white-space:nowrap;transition:all .2s;
+  flex-shrink:0;
+}
+.koala-tab:hover{border-color:var(--primary);color:var(--primary)}
+.koala-tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+/* 响应式 */
+@media(max-width:900px){
+  .koala-section-body{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+  .koala-logo-tagline{display:none}
+}
+@media(max-width:600px){
+  .koala-section-body{grid-template-columns:1fr 1fr}
+  .koala-search-row{flex-direction:column}
+  .koala-quick-bar{gap:8px}
+  .koala-footer-qr{gap:24px}
+  .koala-btn span{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<header class="koala-header">
+  <div class="koala-mobile-tip">
+    📱 移动端为简化版本，建议在 PC 端打开体验更佳
+  </div>
+  <div class="koala-top">
+    <div class="koala-logo-row">
+      <a href="#" class="koala-logo">
+        <div class="koala-logo-icon">🦊</div>
+        <div class="koala-logo-text">
+          <div class="koala-logo-name">考拉新媒体导航</div>
+          <div class="koala-logo-tagline">新媒体人每天打开的第一个网站</div>
+        </div>
+      </a>
+      <div class="koala-actions">
+        <button class="koala-btn koala-btn-outline" onclick="addFavorite()">
+          <span>⭐</span><span>收藏</span>
+        </button>
+        <button class="koala-btn koala-btn-primary" onclick="doSearch()">
+          <span>🔍</span><span>搜百度</span>
+        </button>
+        <button class="koala-btn koala-btn-outline" onclick="showFeedback()">
+          <span>💡</span><span>提建议</span>
+        </button>
+      </div>
+    </div>
+    <nav class="koala-nav" id="koalaNav">
+      <a href="#" class="active" data-tab="all">推荐工具</a>
+      <a href="#" data-tab="ai">AI办公</a>
+      <a href="#" data-tab="content">内容工具</a>
+      <a href="#" data-tab="data">数据平台</a>
+      <a href="#" data-tab="design">设计作图</a>
+      <a href="#" data-tab="video">视频工具</a>
+      <a href="#" data-tab="image">高清图库</a>
+      <a href="#" data-tab="ecommerce">社交电商</a>
+      <a href="#" data-tab="more">更多工具</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 主内容 -->
+<main class="koala-container">
+
+  <!-- 搜索 -->
+  <div class="koala-search-wrap">
+    <div class="koala-search-row">
+      <input type="text" class="koala-search-input" id="koalaSearchInput"
+        placeholder="搜索工具、素材、教程..." onkeydown="if(event.key==='Enter')doSearch()">
+      <button class="koala-search-btn" onclick="doSearch()">🔍 搜索</button>
+    </div>
+  </div>
+
+  <!-- 快捷工具栏 -->
+  <div class="koala-quick-bar">
+    <a class="koala-quick-item" href="https://chat.openai.com" target="_blank" rel="noopener">
+      <span class="emoji">🤖</span> ChatGPT
+    </a>
+    <a class="koala-quick-item" href="https://www.notion.so" target="_blank" rel="noopener">
+      <span class="emoji">📝</span> Notion
+    </a>
+    <a class="koala-quick-item" href="https://www.remove.bg" target="_blank" rel="noopener">
+      <span class="emoji">🖼️</span> RemoveBG
+    </a>
+    <a class="koala-quick-item" href="https://canva.cn" target="_blank" rel="noopener">
+      <span class="emoji">🎨</span> Canva
+    </a>
+    <a class="koala-quick-item" href="https://www.figma.com" target="_blank" rel="noopener">
+      <span class="emoji">✏️</span> Figma
+    </a>
+    <a class="koala-quick-item" href="https://www.midjourney.com" target="_blank" rel="noopener">
+      <span class="emoji">🎭</span> Midjourney
+    </a>
+    <a class="koala-quick-item" href="https://www.pexels.com" target="_blank" rel="noopener">
+      <span class="emoji">📷</span> Pexels
+    </a>
+    <a class="koala-quick-item" href="https://pixabay.com" target="_blank" rel="noopener">
+      <span class="emoji">🌄</span> Pixabay
+    </a>
+  </div>
+
+  <!-- 实时热点 -->
+  <div class="koala-hot-bar">
+    <div class="koala-hot-label">
+      🔥 实时热点
+    </div>
+    <div class="koala-hot-scroll">
+      <div class="koala-hot-items" id="hotItems"></div>
+    </div>
+  </div>
+
+  <!-- 分类标签 -->
+  <div class="koala-tabs" id="koalaTabs"></div>
+
+  <!-- AI办公工具 -->
+  <section class="koala-section" id="sec-ai">
+    <div class="koala-section-header">
+      <div class="koala-section-title">
+        <div class="icon" style="background:#e8f5e9;color:#2e7d32">🤖</div>
+        AI办公工具
+      </div>
+      <a href="#" class="koala-section-more" onclick="return false">更多 ></a>
+    </div>
+    <div class="koala-section-body" id="ai-tools"></div>
+  </section>
+
+  <!-- AI论文工具 -->
+  <section class="koala-section" id="sec-paper">
+    <div class="koala-section-header">
+      <div class="koala-section-title">
+        <div class="icon" style="background:#e3f2fd;color:#1565c0">📄</div>
+        AI论文工具
+      </div>
+      <a href="#" class="koala-section-more" onclick="return false">更多 ></a>
+    </div>
+    <div class="koala-section-body" id="paper-tools"></div>
+  </section>
+
+  <!-- AI工具合集 -->
+  <section class="koala-section" id="sec-ai-all">
+    <div class="koala-section-header">
+      <div class="koala-section-title">
+        <div class="icon" style="background:#fff3e0;color:#e65100">🧰</div>
+        AI工具合集
+      </div>
+      <a href="#" class="koala-section-more" onclick="return false">更多 ></a>
+    </div>
+    <div class="koala-section-body" id="ai-all-tools"></div>
+  </section>
+
+  <!-- 新媒体内容工具 -->
+  <section class="koala-section" id="sec-content">
+    <div class="koala-section-header">
+      <div class="koala-section-title">
+        <div class="icon" style="background:#fce4ec;color:#c2185b">✍️</div>
+        新媒体内容工具
+      </div>
+      <a href="#" class="koala-section-more" onclick="return false">更多 ></a>
+    </div>
+    <div class="koala-section-body" id="content-tools"></div>
+  </section>
+
+  <!-- 微信&短视频数据 -->
+  <section class="koala-section" id="sec-data">
+    <div class="koala-section-header">
+      <div class="koala-section-title">
+        <div class="icon" style="background:#e8eaf6;color:#3949ab">📊</div>
+        微信 & 短视频数据分析
+      </div>
+      <a href="#" class="koala-section-more" onclick="return false">更多 ></a>
+    </div>
+    <div class="koala-section-body" id="data-tools"></div>
+  </section>
+
+  <!-- 在线做图 -->
+  <section class="koala-section" id="sec-design">
+    <div class="koala-section-header">
+      <div class="koala-section-title">
+        <div class="icon" style="background:#f3e5f5;color:#7b1fa2">🎨</div>
+        在线做图
+      </div>
+      <a href="#" class="koala-section-more" onclick="return false">更多 ></a>
+    </div>
+    <div class="koala-section-body" id="design-tools"></div>
+  </section>
+
+  <!-- 高清图库 -->
+  <section class="koala-section" id="sec-image">
+    <div class="koala-section-header">
+      <div class="koala-section-title">
+        <div class="icon" style="background:#e0f7fa;color:#00838f">🖼️</div>
+        高清图库
+      </div>
+      <a href="#" class="koala-section-more" onclick="return false">更多 ></a>
+    </div>
+    <div class="koala-section-body" id="image-tools"></div>
+  </section>
+
+  <!-- 视频工具 -->
+  <section class="koala-section" id="sec-video">
+    <div class="koala-section-header">
+      <div class="koala-section-title">
+        <div class="icon" style="background:#fff8e1;color:#f9a825">🎬</div>
+        视频工具
+      </div>
+      <a href="#" class="koala-section-more" onclick="return false">更多 ></a>
+    </div>
+    <div class="koala-section-body" id="video-tools"></div>
+  </section>
+
+  <!-- 社交电商 -->
+  <section class="koala-section" id="sec-ecommerce">
+    <div class="koala-section-header">
+      <div class="koala-section-title">
+        <div class="icon" style="background:#f1f8e9;color:#558b2f">🛒</div>
+        社交电商
+      </div>
+      <a href="#" class="koala-section-more" onclick="return false">更多 ></a>
+    </div>
+    <div class="koala-section-body" id="ecommerce-tools"></div>
+  </section>
+
+  <!-- 公众号推荐 -->
+  <section class="koala-section">
+    <div class="koala-section-header">
+      <div class="koala-section-title">
+        <div class="icon" style="background:#e8f5e9;color:#2e7d32">📢</div>
+        推荐公众号
+      </div>
+      <a href="#" class="koala-section-more" onclick="return false">更多 ></a>
+    </div>
+    <div class="koala-wechat-grid" id="wechat-grid"></div>
+  </section>
+
+</main>
+
+<!-- 底部 -->
+<footer class="koala-footer">
+  <div class="koala-footer-inner">
+    <div class="koala-footer-qr">
+      <div class="koala-qr-item">
+        <div class="koala-qr-box">📱</div>
+        <div class="koala-qr-name">关注公众号</div>
+        <div class="koala-qr-desc">获取最新干货</div>
+      </div>
+      <div class="koala-qr-item">
+        <div class="koala-qr-box">👥</div>
+        <div class="koala-qr-name">加创始人微信</div>
+        <div class="koala-qr-desc">进用户交流群</div>
+      </div>
+      <div class="koala-qr-item">
+        <div class="koala-qr-box">📩</div>
+        <div class="koala-qr-name">联系我们</div>
+        <div class="koala-qr-desc">合作 & 建议</div>
+      </div>
+    </div>
+    <div class="koala-footer-links">
+      <a href="#">关于我们</a>
+      <a href="#">加入我们</a>
+      <a href="#">广告合作</a>
+      <a href="#">版权声明</a>
+      <a href="#">隐私政策</a>
+      <a href="#">用户协议</a>
+      <a href="#">网站地图</a>
+    </div>
+    <div class="koala-footer-copy">
+      Copyright © 2019 武汉小强科技有限责任公司<br>
+      <a href="#">鄂ICP备19027071号-2</a> | 网站版本 v3.2
+    </div>
+  </div>
+</footer>
+
+<!-- 回顶部 -->
+<button class="koala-back-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+/* ==================== 工具数据 ==================== */
+var toolData = {
+  ai: [
+    { name:"ChatGPT", desc:"OpenAI推出的最强AI对话助手，支持GPT-4o多模态", icon:"🤖", color:"#10a37f", url:"https://chat.openai.com" },
+    { name:"Claude", desc:"Anthropic推出的AI助手，擅长写作和分析", icon:"🧠", color:"#d4a574", url:"https://claude.ai" },
+    { name:"文心一言", desc:"百度推出的国产大模型，支持中文对话和创作", icon:"💡", color:"#2932e1", url:"https://yiyan.baidu.com" },
+    { name:"通义千问", desc:"阿里云推出的大语言模型，支持中英文", icon:"🔮", color:"#ff6b35", url:"https://tongyi.aliyun.com" },
+    { name:"Kimi", desc:"月之暗面推出的AI助手，支持超长上下文", icon:"🌙", color:"#6366f1", url:"https://kimi.moonshot.cn" },
+    { name:"智谱清言", desc:"智谱AI推出的国产大模型，免费使用", icon:"✨", color:"#8b5cf6", url:"https://www.zhipuai.cn" },
+    { name:"讯飞星火", desc:"科大讯飞推出的大模型，语音交互强大", icon:"🔥", color:"#4285f4", url:"https://xinghuo.xfyun.cn" },
+    { name:"WPS AI", desc:"WPS办公套件集成AI能力，文档处理更高效", icon:"📊", color:"#ff6b81", url:"https://ai.wps.cn" },
+  ],
+  paper: [
+    { name:"ChatGPT", desc:"论文润色、摘要生成、研究思路辅助", icon:"🤖", color:"#10a37f", url:"https://chat.openai.com" },
+    { name:"Claude", desc:"学术写作助手，支持长文本分析和论证", icon:"🧠", color:"#d4a574", url:"https://claude.ai" },
+    { name:"Consensus", desc:"AI学术搜索引擎，基于2亿篇论文", icon:"🔬", color:"#2563eb", url:"https://consensus.app" },
+    { name:"Elicit", desc:"AI研究助手，自动总结论文核心观点", icon:"📑", color:"#059669", url:"https://elicit.com" },
+    { name:"SciSpace", desc:"PDF论文阅读理解，智能问答", icon:"📚", color:"#7c3aed", url:"https://typeset.io" },
+    { name:"PhD", desc:"AI论文助手，中英双语支持", icon:"🎓", color:"#0891b2", url:"https://phdassistant.cn" },
+  ],
+  aiAll: [
+    { name:"Midjourney", desc:"最强AI绘图工具，支持垫图和风格参考", icon:"🎭", color:"#5865f2", url:"https://www.midjourney.com" },
+    { name:"Stable Diffusion", desc:"开源AI绘图模型，免费本地部署", icon:"🖼️", color:"#ec4899", url:"https://stability.ai" },
+    { name:"DALL-E 3", desc:"OpenAI推出的AI绘图，支持精准控制", icon:"🎨", color:"#10a37f", url:"https://openai.com/dall-e-3" },
+    { name:"Gamma", desc:"AI生成PPT，一句话制作演示文稿", icon:"📽️", color:"#f59e0b", url:"https://gamma.app" },
+    { name:"Copy.ai", desc:"AI营销文案生成，支持多场景", icon:"✍️", color:"#6366f1", url:"https://www.copy.ai" },
+    { name:"Jasper", desc:"企业级AI内容创作平台", icon:"✏️", color:"#ff6b35", url:"https://www.jasper.ai" },
+    { name:"Runway", desc:"AI视频生成和编辑，支持Gen-3", icon:"🎬", color:"#000", url:"https://runwayml.com" },
+    { name:"ElevenLabs", desc:"AI配音和语音克隆，支持28种语言", icon:"🎙️", color:"#000", url:"https://elevenlabs.io" },
+  ],
+  content: [
+    { name:"秘塔写作猫", desc:"AI写作助手，纠错、改写、润色", icon:"🐱", color:"#625df5", url:"https://xiezuocat.com" },
+    { name:"Friday AI", desc:"智能写作平台，生成各类营销内容", icon:"📝", color:"#ff6b35", url:"https://www.heyfriday.cn" },
+    { name:"Giiso写作机器人", desc:"资讯聚合+AI写作，内容自动化", icon:"🤖", color:"#4285f4", url:"https://www.giiso.com" },
+    { name:"完美写作", desc:"微信公众号文章AI辅助写作", icon:"✨", color:"#10a37f", url:"https://wanmei.top" },
+    { name:"易撰", desc:"自媒体内容选题和素材聚合工具", icon:"📊", color:"#f59e0b", url:"https://www.yizhuan5.com" },
+    { name:"易企秀", desc:"H5页面制作工具，零代码快速上手", icon:"🎭", color:"#e91e63", url:"https://www.eqxiu.com" },
+    { name:"MAKA", desc:"H5和海报设计，丰富的模板库", icon:"🎨", color:"#ff5722", url:"https://www.maka.im" },
+    { name:"即时热榜", desc:"全网热点热搜聚合，素材选题必备", icon:"🔥", color:"#ff6b35", url:"https://www.jsredian.com" },
+  ],
+  data: [
+    { name:"新榜", desc:"微信公众号和短视频数据监测分析", icon:"📊", color:"#ff6b35", url:"https://www.newrank.cn" },
+    { name:"蝉妈妈", desc:"抖音直播和短视频电商数据", icon:"🦋", color:"#10a37f", url:"https://www.chanmama.com" },
+    { name:"飞瓜数据", desc:"快手和抖音数据分析平台", icon:"📈", color:"#ff5722", url:"https://www.feigua.cn" },
+    { name:"秒针系统", desc:"社交媒体效果监测和广告监测", icon:"⏱️", color:"#4285f4", url:"https://www.miaozhen.com" },
+    { name:"清博指数", desc:"新媒体大数据分析和榜单", icon:"📉", color:"#7c3aed", url:"https://www.gsdata.cn" },
+    { name:"友望数据", desc:"小红书数据分析，了解博主和笔记", icon:"🌸", color:"#ec4899", url:"https://www.youwant.cn" },
+    { name:"新抖", desc:"抖音全场景数据，数据分析工具", icon:"🎵", color:"#6366f1", url:"https://xd.newrank.cn" },
+    { name:"卡思数据", desc:"抖音、B站、快手多平台数据", icon:"📱", color:"#f59e0b", url:"https://www.caasdata.com" },
+  ],
+  design: [
+    { name:"Canva", desc:"在线设计平台，海报LOGO一键生成", icon:"🎨", color:"#00c4cc", url:"https://www.canva.cn" },
+    { name:"Figma", desc:"在线UI设计工具，团队协作神器", icon:"✏️", color:"#f24e1e", url:"https://www.figma.com" },
+    { name:"创客贴", desc:"在线图片设计，海量模板素材", icon:"🖌️", color:"#4285f4", url:"https://www.chuangkit.com" },
+    { name:"稿定设计", desc:"在线PS和设计工具，快速出图", icon:"🎯", color:"#ff6b35", url:"https://www.gaoding.com" },
+    { name:"图怪兽", desc:"海报和电商主图设计工具", icon:"🦄", color:"#a855f7", url:"https://818ps.com" },
+    { name:"RemoveBG", desc:"AI一键抠图，100%自动处理", icon:"🖼️", color:"#ff4455", url:"https://www.remove.bg" },
+    { name:"Photopea", desc:"在线PS工具，浏览器里的PS", icon:"📸", color:"#31a8ff", url:"https://www.photopea.com" },
+    { name:"标小智", desc:"AI生成logo和品牌视觉", icon:"🔤", color:"#10a37f", url:"https://www.logosc.cn" },
+  ],
+  image: [
+    { name:"Unsplash", desc:"免费高清图片，可商用无版权", icon:"📷", color:"#111", url:"https://unsplash.com" },
+    { name:"Pexels", desc:"免费素材图片和视频，商用免费", icon:"🌄", color:"#05a081", url:"https://www.pexels.com" },
+    { name:"Pixabay", desc:"海量免费图片和视频素材", icon:"🎑", color:"#4caf50", url:"https://pixabay.com" },
+    { name:"花瓣网", desc:"中文设计素材灵感库", icon:"🌸", color:"#ff4081", url:"https://huaban.com" },
+    { name:"站酷", desc:"设计师互动平台，优质设计作品", icon:"🏠", color:"#ffc107", url:"https://www.zcool.com.cn" },
+    { name:"视觉中国", desc:"正版商业图片和视频素材库", icon:"👁️", color:"#2196f3", url:"https://www.vcg.com" },
+    { name:"Freepik", desc:"免费矢量图、PSD和图片素材", icon:"⚡", color:"#2e7d32", url:"https://www.freepik.com" },
+    { name:"Foodiesfeed", desc:"免费美食图片素材库", icon:"🍔", color:"#f59e0b", url:"https://www.foodiesfeed.com" },
+  ],
+  video: [
+    { name:"剪映", desc:"字节跳动出品，免费视频剪辑工具", icon:"✂️", color:"#161616", url:"https://www.jianying.com" },
+    { name:"CapCut", desc:"抖音国际版剪辑工具，AI功能强大", icon:"🎬", color:"#ff0040", url:"https://www.capcut.com" },
+    { name:"Final Cut Pro", desc:"苹果专业视频剪辑软件", icon:"🍎", color:"#a3aaae", url:"https://www.apple.com.cn/final-cut-pro/" },
+    { name:"Adobe Premiere", desc:"Adobe专业视频编辑软件", icon:"🎥", color:"#9999ff", url:"https://www.adobe.com/cn/premiere.html" },
+    { name:"DaVinci Resolve", desc:"免费专业调色和剪辑软件", icon:"🎞️", color:"#4caf50", url:"https://www.blackmagicdesign.com" },
+    { name:"必剪", desc:"B站出品，视频创作工具", icon:"📺", color:"#00a1d6", url:"https://jacky.hdshake.com" },
+    { name:"万兴喵影", desc:"国产视频剪辑软件，AI特效丰富", icon:"🐱", color:"#ff4081", url:"https://miao.wondershare.cn" },
+    { name:"腾讯智影", desc:"腾讯云AI视频工具，在线剪辑", icon:"☁️", color:"#4285f4", url:"https://zenvideo.qq.com" },
+  ],
+  ecommerce: [
+    { name:"有赞", desc:"微信小程序电商解决方案", icon:"🛍️", color:"#ff6b35", url:"https://www.youzan.com" },
+    { name:"微店", desc:"微信开店工具，零门槛电商", icon:"🏪", color:"#ff5722", url:"https://www.weidian.com" },
+    { name:"小鹅通", desc:"知识付费和在线教育平台", icon:"📚", color:"#4285f4", url:"https://www.xiaoeknow.com" },
+    { name:"千聊", desc:"知识付费直播工具", icon:"🎯", color:"#10a37f", url:"https://www.qlchat.com" },
+    { name:"小红书", desc:"种草内容和社交电商平台", icon:"🌸", color:"#fe2c55", url:"https://www.xiaohongshu.com" },
+    { name:"抖音小店", desc:"抖音电商开店工具", icon:"🎵", color:"#161616", url:"https://school.jinritemai.com" },
+  ],
+};
+
+/* ==================== 公众号数据 ==================== */
+var wechatAccounts = [
+  { name:"新媒体运营大叔", desc:"10万+运营干货", avatar:"🐻" },
+  { name:"考拉新媒", desc:"资源导航推荐", avatar:"🦊" },
+  { name:"AI新潮", desc:"AI工具实测", avatar:"🤖" },
+  { name:"运营研究社", desc:"深度运营分析", avatar:"📊" },
+  { name:"内容特工", desc:"爆款内容方法论", avatar:"🎯" },
+  { name:"增长黑客", desc:"增长运营实战", avatar:"📈" },
+  { name:"设计便利店", desc:"创意设计灵感", avatar:"🎨" },
+  { name:"短视频内参", desc:"抖音快手运营", avatar:"🎬" },
+];
+
+/* ==================== 热搜数据 ==================== */
+var hotTopics = [
+  "🎉 ChatGPT-5 即将发布，AI进入新纪元",
+  "📱 微信小店全面升级，电商功能大更新",
+  "🔥 抖音直播新规出台，网红经济迎变局",
+  "🎨 Midjourney V7 发布，AI绘图再进化",
+  "📰 微信公众号支持AI摘要功能",
+  "💡 AI写作工具月活突破1亿",
+  "🎬 短视频平台推AI剪辑助手",
+  "🌟 小红书种草笔记流量扶持加码",
+];
+
+/* ==================== 渲染函数 ==================== */
+function renderTools(containerId, tools) {
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  var html = '';
+  tools.forEach(function(t) {
+    html += '<a class="koala-tool" href="' + t.url + '" target="_blank" rel="noopener">';
+    html += '<div class="koala-tool-icon" style="background:' + t.color + '15;color:' + t.color + '">' + t.icon + '</div>';
+    html += '<div class="koala-tool-info">';
+    html += '<div class="koala-tool-name">' + t.name + '</div>';
+    html += '<div class="koala-tool-desc">' + t.desc + '</div>';
+    html += '</div></a>';
+  });
+  container.innerHTML = html;
+}
+
+function renderWechatGrid() {
+  var html = '';
+  wechatAccounts.forEach(function(w) {
+    html += '<div class="koala-wechat-item" onclick="alert(\'关注公众号: ' + w.name + '\\n' + w.desc + '\')">';
+    html += '<div class="koala-wechat-avatar"><div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;background:#f0f0f0;">' + w.avatar + '</div></div>';
+    html += '<div class="koala-wechat-name">' + w.name + '</div>';
+    html += '<div class="koala-wechat-desc">' + w.desc + '</div></div>';
+  });
+  document.getElementById('wechat-grid').innerHTML = html;
+}
+
+function renderHot() {
+  var html = '';
+  hotTopics.forEach(function(topic, i) {
+    html += '<div class="koala-hot-item">';
+    html += '<span class="num ' + (i < 3 ? 'hot' : '') + '">' + (i + 1) + '</span>';
+    html += '<span>' + topic + '</span></div>';
+  });
+  document.getElementById('hotItems').innerHTML = html;
+}
+
+/* ==================== 工具函数 ==================== */
+function doSearch() {
+  var keyword = document.getElementById('koalaSearchInput').value.trim() || '新媒体工具';
+  var a = document.createElement('a');
+  a.href = 'https://www.baidu.com/s?wd=' + encodeURIComponent(keyword);
+  a.target = '_blank';
+  a.rel = 'noopener';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function addFavorite() {
+  var ua = navigator.userAgent.toLowerCase();
+  if (ua.includes('mac')) {
+    alert('收藏方法：\n按 Command (⌘) + D ');
+  } else {
+    alert('收藏方法：\n按 Ctrl + D ');
+  }
+}
+
+function showFeedback() {
+  alert('感谢您的建议！\n\n联系我们：\n微信：kaola001\n邮箱：hi@kaolamedia.com');
+}
+
+/* ==================== 标签切换 ==================== */
+function initTabs() {
+  var tabs = document.querySelectorAll('.koala-nav a');
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function(e) {
+      e.preventDefault();
+      tabs.forEach(function(t) { t.classList.remove('active'); });
+      this.classList.add('active');
+      var tabId = this.dataset.tab;
+      // 平滑滚动到对应区块
+      var secMap = {
+        ai: 'sec-ai', paper: 'sec-paper', 'ai-all': 'sec-ai-all',
+        content: 'sec-content', data: 'sec-data', design: 'sec-design',
+        image: 'sec-image', video: 'sec-video', ecommerce: 'sec-ecommerce'
+      };
+      var sec = document.getElementById(secMap[tabId] || 'sec-ai');
+      if (sec) {
+        sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+}
+
+/* ==================== 回顶部 ==================== */
+window.addEventListener('scroll', function() {
+  var btn = document.getElementById('backToTop');
+  btn.classList.toggle('visible', window.scrollY > 400);
+});
+
+/* ==================== 初始化 ==================== */
+(function() {
+  renderTools('ai-tools', toolData.ai);
+  renderTools('paper-tools', toolData.paper);
+  renderTools('ai-all-tools', toolData.aiAll);
+  renderTools('content-tools', toolData.content);
+  renderTools('data-tools', toolData.data);
+  renderTools('design-tools', toolData.design);
+  renderTools('image-tools', toolData.image);
+  renderTools('video-tools', toolData.video);
+  renderTools('ecommerce-tools', toolData.ecommerce);
+  renderWechatGrid();
+  renderHot();
+  initTabs();
+})();
+</script>
+</body>
+</html>
